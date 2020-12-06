@@ -1,9 +1,26 @@
-/**
- * @format
- */
+import 'react-native-gesture-handler';
+import React from 'react';
+import {AppRegistry, LogBox} from 'react-native';
+import {Provider} from 'react-redux';
+import {store, persistor} from './src/Store/store';
+import {PersistGate} from 'redux-persist/lib/integration/react';
 
-import {AppRegistry} from 'react-native';
-import App from './App';
-import {name as appName} from './app.json';
+import App from './src/App';
 
-AppRegistry.registerComponent(appName, () => App);
+LogBox.ignoreLogs(['']);
+
+class RNBase extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <App />
+        </PersistGate>
+      </Provider>
+    );
+  }
+}
+
+LogBox.ignoreLogs(['']);
+
+AppRegistry.registerComponent('weatherapp', () => RNBase);
